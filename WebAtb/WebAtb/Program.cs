@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebAtb.Data;
 using WebAtb.Data.Entities.Identity;
+using WebAtb.Mapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,7 @@ builder.Services.AddIdentity<AppUser, AppRole>(options =>
     options.Password.RequireLowercase = false;
 }).AddEntityFrameworkStores<AppEFContext>().AddDefaultTokenProviders();
 
+builder.Services.AddAutoMapper(typeof(AppMapProfile));
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -27,7 +29,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
+builder.Services.AddCors();
+
 var app = builder.Build();
+
+app.UseCors(options =>
+                options.AllowAnyMethod().AllowAnyOrigin().AllowAnyHeader());
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
