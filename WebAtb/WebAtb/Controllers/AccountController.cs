@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebAtb.Data.Entities.Identity;
 using WebAtb.Model;
+using WebAtb.Servise;
 
 namespace WebAtb.Controllers
 {
@@ -12,20 +13,35 @@ namespace WebAtb.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly UserManager<AppUser> _userManeger;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly IJwtTokenService  _jwtTokenService;
 
-        public AccountController(UserManager<AppUser> userManeger, IMapper mapper)
+        public AccountController(UserManager<AppUser> userManeger, IMapper mapper, IJwtTokenService jwtTokenService)
         {
-            _userManeger = userManeger;
+            _userManager = userManeger;
             _mapper = mapper;
+            _jwtTokenService = jwtTokenService;
+            
+
         }
 
         [HttpPost]
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] RegisterViewModel model)
         {
+            //var img = ImageWorker.FromBase64StringToImage(model.Photo);
+            //string randomFilename = Path.GetRandomFileName() + ".jpeg";
+            //var dir = Path.Combine(Directory.GetCurrentDirectory(), "uploads", randomFilename);
+            //img.Save(dir, ImageFormat.Jpeg);
+            var user = _mapper.Map<AppUser>(model);
+            //user.Photo = randomFilename;
+            var result = await _userManager.CreateAsync(user, model.Password);
 
-            return Ok(new {token="Ok"});
+            if (!result.Succeeded)
+                return BadRequest(new { errors = result.Errors });
+
+
+            return Ok(new { token = _jwtTokenService.CreateToken(user) });
         }
     }
 }
