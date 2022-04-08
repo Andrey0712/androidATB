@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">MyATB</string>
+    <string name="register">Реєстрація</string>
+    <string name="regist">Ok</string>
+    <string name="email">E-mail</string>
 </resources>
