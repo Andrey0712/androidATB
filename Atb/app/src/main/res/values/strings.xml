@@ -3,4 +3,10 @@
     <string name="register">Реєстрація</string>
     <string name="regist">Ok</string>
     <string name="email">E-mail</string>
+    <string name="fristName">Ім\'я</string>
+    <string name="secondName">Прізвище</string>
+    <string name="phone">Телефон</string>
+    <string name="password">Пароль</string>
+    <string name="confirmPassword">Відтвердження пароля</string>
+    <string name="selectImage">Фото</string>
 </resources>

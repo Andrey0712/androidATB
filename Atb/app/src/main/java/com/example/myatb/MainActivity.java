@@ -24,7 +24,16 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvInfo;
     private TextInputLayout textFieldEmail;
     private TextInputEditText txtEmail;
-
+    private TextInputLayout textFieldFirstName;
+    private TextInputEditText txtFirstName;
+    private TextInputLayout textFieldSecondName;
+    private TextInputEditText txtSecondName;
+    private TextInputLayout textFieldPhone;
+    private TextInputEditText txtPhone;
+    private TextInputLayout textPassword;
+    private TextInputEditText txtPassword;
+    private TextInputLayout textConfirmPassword;
+    private TextInputEditText txtConfirmPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +43,17 @@ public class MainActivity extends AppCompatActivity {
         tvInfo=findViewById(R.id.tvInfo);
         textFieldEmail=findViewById(R.id.textFieldEmail);
         txtEmail=findViewById(R.id.txtEmail);
+        textFieldFirstName=findViewById(R.id.textFieldFirstName);
+        txtFirstName=findViewById(R.id.txtFirstName);
+        textFieldSecondName=findViewById(R.id.textFieldSecondName);
+        txtSecondName=findViewById(R.id.txtSecondName);
+        textFieldPhone=findViewById(R.id.textFieldPhone);
+        txtPhone=findViewById(R.id.txtPhone);
+        textPassword=findViewById(R.id.textPassword);
+        txtPassword=findViewById(R.id.txtPassword);
+        textConfirmPassword=findViewById(R.id.textConfirmPassword);
+        txtConfirmPassword=findViewById(R.id.txtConfirmPassword);
+
     }
 
     public void  handleClick(View view){
@@ -41,8 +61,13 @@ public class MainActivity extends AppCompatActivity {
 //        tvInfo.setText(text);
         RegisterDto registerDto=new RegisterDto();
         registerDto.setEmail(txtEmail.getText().toString());
+        registerDto.setFirstName(txtFirstName.getText().toString());
+        registerDto.setSecondName(txtSecondName.getText().toString());
+        registerDto.setPhone(txtPhone.getText().toString());
+        registerDto.setPassword(txtPassword.getText().toString());
+        registerDto.setConfirmPassword(txtConfirmPassword.getText().toString());
 
-        if(!validationFilds(registerDto))
+        if(!validationFields(registerDto))
             return;
 
         AccountService.getInstance()
@@ -76,10 +101,35 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    private  boolean validationFilds(RegisterDto registerDto){
+    private  boolean validationFields(RegisterDto registerDto){
         textFieldEmail.setError("");
         if(registerDto.getEmail().equals("")){
             textFieldEmail.setError("Вкажіть  E-mail");
+            return false;
+        }
+        textFieldFirstName.setError("");
+        if (registerDto.getFirstName().equals("")) {
+            textFieldFirstName.setError("Вкажіть ім'я");
+            return false;
+        }
+        textFieldSecondName.setError("");
+        if (registerDto.getSecondName().equals("")) {
+            textFieldFirstName.setError("Вкажіть Призвище");
+            return false;
+        }
+        textFieldPhone.setError("");
+        if (registerDto.getPhone().equals("")) {
+            textFieldFirstName.setError("Вкажіть телефон");
+            return false;
+        }
+        textPassword.setError("");
+        if (registerDto.getPassword().equals("")) {
+            textFieldFirstName.setError("Вкажіть пароль");
+            return false;
+        }
+        textConfirmPassword.setError("");
+        if (registerDto.getConfirmPassword().equals("")) {
+            textFieldFirstName.setError("Підтвердіть пароль");
             return false;
         }
         return  true;
@@ -93,9 +143,49 @@ public class MainActivity extends AppCompatActivity {
             for (String item : result.getErrors().getEmail()) {
                 str += item + "\n";
             }
-            textFieldEmail.setError(str);
-        } else
-            textFieldEmail.setError("");
+        }
+        textFieldEmail.setError(str);
+
+        str = "";
+        if (result.getErrors().getFirstName() != null) {
+            for (String item : result.getErrors().getFirstName()) {
+                str += item + "\n";
+            }
+        }
+        textFieldFirstName.setError(str);
+
+        str = "";
+        if (result.getErrors().getSecondName() != null) {
+            for (String item : result.getErrors().getSecondName()) {
+                str += item + "\n";
+            }
+        }
+        textFieldSecondName.setError(str);
+
+        str = "";
+        if (result.getErrors().getPhone() != null) {
+            for (String item : result.getErrors().getPhone()) {
+                str += item + "\n";
+            }
+        }
+        textFieldPhone.setError(str);
+
+        str = "";
+        if (result.getErrors().getPassword() != null) {
+            for (String item : result.getErrors().getPassword()) {
+                str += item + "\n";
+            }
+        }
+        textPassword.setError(str);
+
+        str = "";
+        if (result.getErrors().getConfirmPassword() != null) {
+            for (String item : result.getErrors().getConfirmPassword()) {
+                str += item + "\n";
+            }
+        }
+        textConfirmPassword.setError(str);
+
 
     }
 }
