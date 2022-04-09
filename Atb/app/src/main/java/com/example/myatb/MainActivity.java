@@ -2,8 +2,14 @@ package com.example.myatb;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.myatb.network.account.AccountService;
@@ -14,6 +20,9 @@ import com.example.myatb.network.account.dto.ValidationRegisterDTO;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,6 +44,13 @@ public class MainActivity extends AppCompatActivity {
     private TextInputLayout textConfirmPassword;
     private TextInputEditText txtConfirmPassword;
 
+    // One Preview Image
+    ImageView IVPreviewImage;
+    // constant to compare
+    // the activity result code
+    int SELECT_PICTURE = 200;
+    String sImage="";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +70,52 @@ public class MainActivity extends AppCompatActivity {
         textConfirmPassword=findViewById(R.id.textConfirmPassword);
         txtConfirmPassword=findViewById(R.id.txtConfirmPassword);
 
+        IVPreviewImage=findViewById(R.id.IVPreviewImage);
+
+    }
+
+    public void handleSelectImageClick(View view) {
+        // create an instance of the
+        // intent of the type image
+        Intent i = new Intent();
+        i.setType("image/*");
+        i.setAction(Intent.ACTION_GET_CONTENT);
+
+        // pass the constant to compare it
+        // with the returned requestCode
+        startActivityForResult(Intent.createChooser(i, "Select Picture"), SELECT_PICTURE);
+    }
+
+    // this function is triggered when user
+    // selects the image from the imageChooser
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+
+            // compare the resultCode with the
+            // SELECT_PICTURE constant
+            if (requestCode == SELECT_PICTURE) {
+                // Get the url of the image from data
+                Uri uri = data.getData();
+                // update the preview image in the layout
+                IVPreviewImage.setImageURI(uri);
+                Bitmap bitmap= null;
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                // initialize byte stream
+                ByteArrayOutputStream stream=new ByteArrayOutputStream();
+                // compress Bitmap
+                bitmap.compress(Bitmap.CompressFormat.JPEG,100,stream);
+                // Initialize byte array
+                byte[] bytes=stream.toByteArray();
+                // get base64 encoded string
+                sImage= Base64.encodeToString(bytes,Base64.DEFAULT);
+            }
+        }
     }
 
     public void  handleClick(View view){
@@ -66,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
         registerDto.setPhone(txtPhone.getText().toString());
         registerDto.setPassword(txtPassword.getText().toString());
         registerDto.setConfirmPassword(txtConfirmPassword.getText().toString());
+        registerDto.setPhoto(sImage);
 
         if(!validationFields(registerDto))
             return;
@@ -130,6 +193,11 @@ public class MainActivity extends AppCompatActivity {
         textConfirmPassword.setError("");
         if (registerDto.getConfirmPassword().equals("")) {
             textFieldFirstName.setError("Підтвердіть пароль");
+            return false;
+        }
+        textFieldFirstName.setError("");
+        if (sImage.equals("")) {
+            textFieldFirstName.setError("Оберіть фотку");
             return false;
         }
         return  true;

@@ -31,7 +31,15 @@ namespace WebAtb.Validators
             //.Matches("^[^£# “”]*$").WithName("Password").WithMessage("Password must not contain the following characters £ # “” or spaces.");
 
             RuleFor(x => x.FirstName)
-                .NotEmpty().WithMessage("Поле пароль є обов'язковим!")
+                .NotEmpty().WithMessage("Поле є обов'язковим!")
+                .MinimumLength(2).WithMessage("Поле має мати міннімум 2 символів!");
+
+            RuleFor(x => x.SecondName)
+                .NotEmpty().WithMessage("Поле є обов'язковим!")
+                .MinimumLength(10).WithMessage("Поле має мати міннімум 10 символів!");
+
+            RuleFor(x => x.Phone)
+                .NotEmpty().WithMessage("Поле  є обов'язковим!")
                 .MinimumLength(2).WithMessage("Поле має мати міннімум 2 символів!");
 
             RuleFor(x => x.ConfirmPassword)
