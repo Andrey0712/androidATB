@@ -9,4 +9,5 @@
     <string name="password">Пароль</string>
     <string name="confirmPassword">Відтвердження пароля</string>
     <string name="selectImage">Фото</string>
+    <string name="hello">Hi man!</string>
 </resources>

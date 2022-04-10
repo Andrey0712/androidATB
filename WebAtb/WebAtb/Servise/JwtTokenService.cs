@@ -28,8 +28,8 @@ namespace WebAtb.Servise
             var roles = _userManager.GetRolesAsync(user).Result;
             List<Claim> claims = new List<Claim>()
             {
-                new Claim("name", user.UserName)//,
-                //new Claim("image", user.Photo)
+                new Claim("name", user.UserName),
+                new Claim("image", user.Photo)
             };
             if (roles.Any())
             {

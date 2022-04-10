@@ -9,7 +9,7 @@ namespace WebAtb.Mapper
         public AppMapProfile()
         {
             CreateMap<RegisterViewModel, AppUser>()
-                //.ForMember(x => x.Photo, opt => opt.Ignore())
+                .ForMember(x => x.Photo, opt => opt.Ignore())
                 .ForMember(x => x.UserName, opt => opt.MapFrom(x => x.Email));
         }
 
