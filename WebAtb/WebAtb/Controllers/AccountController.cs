@@ -17,10 +17,12 @@ namespace WebAtb.Controllers
         private readonly IMapper _mapper;
         private readonly UserManager<AppUser> _userManager;
         private readonly IJwtTokenService  _jwtTokenService;
+        private readonly SignInManager<AppUser> _signInManager;
 
-        public AccountController(UserManager<AppUser> userManeger, IMapper mapper, IJwtTokenService jwtTokenService)
+        public AccountController(UserManager<AppUser> userManeger, SignInManager<AppUser> signInManager, IMapper mapper, IJwtTokenService jwtTokenService)
         {
             _userManager = userManeger;
+            _signInManager = signInManager;
             _mapper = mapper;
             _jwtTokenService = jwtTokenService;
             
@@ -41,6 +43,23 @@ namespace WebAtb.Controllers
 
             if (!result.Succeeded)
                 return BadRequest(new { errors = result.Errors });
+
+
+            return Ok(new { token = _jwtTokenService.CreateToken(user) });
+        }
+
+        [HttpPost]
+        [Route("login")]
+        public async Task<IActionResult> Login([FromBody] LoginUserModel model)
+        {
+            var user=await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+                return BadRequest(new { message = "User isn't find" });
+            var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
+            if (!result.Succeeded)
+            {
+                return BadRequest(new { message = "Incorrect data!" });
+            }
 
 
             return Ok(new { token = _jwtTokenService.CreateToken(user) });

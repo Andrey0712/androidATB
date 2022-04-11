@@ -29,8 +29,13 @@ namespace WebAtb.Servise
             List<Claim> claims = new List<Claim>()
             {
                 new Claim("name", user.UserName),
-                new Claim("image", user.Photo)
-            };
+                new Claim("image", user.Photo),
+                new Claim("email", user.Email),
+            new Claim("firstname", user.FirstName),
+            new Claim("secondname", user.SecondName),
+            new Claim("phone", user.Phone)
+            
+        };
             if (roles.Any())
             {
                 foreach (var role in roles)
