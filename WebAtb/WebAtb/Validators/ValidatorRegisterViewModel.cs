@@ -36,7 +36,7 @@ namespace WebAtb.Validators
 
             RuleFor(x => x.SecondName)
                 .NotEmpty().WithMessage("Поле є обов'язковим!")
-                .MinimumLength(10).WithMessage("Поле має мати міннімум 10 символів!");
+                .MinimumLength(3).WithMessage("Поле має мати міннімум 3 символів!");
 
             RuleFor(x => x.Phone)
                 .NotEmpty().WithMessage("Поле  є обов'язковим!")

@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.example.myatb.account.LoginActivity;
 import com.example.myatb.account.RegisterActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -41,6 +42,16 @@ public class MainActivity extends AppCompatActivity {
                     System.out.println("Problem "+ ex.getMessage());
                 }
                 return true;
+            case R.id.m_login:
+                try {
+                    intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
+                catch(Exception ex) {
+                    System.out.println("Problem "+ ex.getMessage());
+                }
+                return true;
+
 
             default:
                 return super.onOptionsItemSelected(item);

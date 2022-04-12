@@ -180,22 +180,22 @@ public class RegisterActivity extends AppCompatActivity {
         }
         textFieldSecondName.setError("");
         if (registerDto.getSecondName().equals("")) {
-            textFieldFirstName.setError("Вкажіть Призвище");
+            textFieldSecondName.setError("Вкажіть Призвище");
             return false;
         }
         textFieldPhone.setError("");
         if (registerDto.getPhone().equals("")) {
-            textFieldFirstName.setError("Вкажіть телефон");
+            textFieldPhone.setError("Вкажіть телефон");
             return false;
         }
         textPassword.setError("");
         if (registerDto.getPassword().equals("")) {
-            textFieldFirstName.setError("Вкажіть пароль");
+            textPassword.setError("Вкажіть пароль");
             return false;
         }
         textConfirmPassword.setError("");
         if (registerDto.getConfirmPassword().equals("")) {
-            textFieldFirstName.setError("Підтвердіть пароль");
+            textConfirmPassword.setError("Підтвердіть пароль");
             return false;
         }
         textFieldFirstName.setError("");
