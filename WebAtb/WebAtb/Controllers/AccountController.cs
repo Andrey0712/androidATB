@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Drawing.Imaging;
+using WebAtb.Data;
 using WebAtb.Data.Entities.Identity;
 using WebAtb.Helpers;
 using WebAtb.Model;
@@ -18,14 +19,16 @@ namespace WebAtb.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly IJwtTokenService  _jwtTokenService;
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly AppEFContext _context;
 
-        public AccountController(UserManager<AppUser> userManeger, SignInManager<AppUser> signInManager, IMapper mapper, IJwtTokenService jwtTokenService)
+        public AccountController(UserManager<AppUser> userManeger, SignInManager<AppUser> signInManager,
+            AppEFContext context,IMapper mapper, IJwtTokenService jwtTokenService)
         {
             _userManager = userManeger;
             _signInManager = signInManager;
             _mapper = mapper;
             _jwtTokenService = jwtTokenService;
-            
+            _context = context;
 
         }
 
@@ -58,11 +61,21 @@ namespace WebAtb.Controllers
             var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
             if (!result.Succeeded)
             {
-                return BadRequest(new { message = "Incorrect data!" });
+                return BadRequest(new { message = "Incorrect password!" });
             }
 
 
             return Ok(new { token = _jwtTokenService.CreateToken(user) });
+        }
+
+        [HttpGet]
+        //[Authorize]
+        [Route("users")]
+        public async Task<IActionResult> Users()
+        {
+            var list = _context.Users.Select(x => _mapper.Map<UserItemViewModel>(x)).ToList();
+
+            return Ok(list);
         }
     }
 }

@@ -15,8 +15,12 @@ namespace WebAtb.Mapper
                 .ForMember(x => x.SecondName, opt => opt.MapFrom(opt => opt.SecondName))
                 .ForMember(x => x.Email, opt => opt.MapFrom(opt => opt.Email))
                 .ForMember(x => x.Phone, opt => opt.MapFrom(opt => opt.Phone));
+
+            //мепер для вівода юзера
+            CreateMap<AppUser, UserItemViewModel>()
+                .ForMember(x => x.Photo, opt => opt.MapFrom(x => $"/images/{x.Photo}"));
         }
 
-
+        
     }
 }
