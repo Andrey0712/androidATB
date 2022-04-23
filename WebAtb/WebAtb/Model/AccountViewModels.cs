@@ -46,4 +46,18 @@
         /// <example>eyJpZCI6IjEzMzciLCJ1c2VybmFtZSI6ImJpem9uZSIsImlhdCI6MTU5NDIwOTYwMCwicm9sZSI6InVzZXIifQ</example>
         public string token { get; set; }
     }
+
+    public class UserEditViewModel
+    {
+        public long Id { get; set; }
+        public string FirstName { get; set; }
+        public string SecondName { get; set; }
+        public string Photo { get; set; }
+        public string Phone { get; set; }
+    }
+     public class UserDelViewModel
+    {
+        public long Id { get; set; }
+        
+    }
 }

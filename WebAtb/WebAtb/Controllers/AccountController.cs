@@ -85,7 +85,7 @@ namespace WebAtb.Controllers
         /// <summary>
         /// Вхід на сайт
         /// </summary>
-        /// <param name="model">Подель із даними</param>
+        /// <param name="model">Понель із даними</param>
         /// <returns>Повертає токен авторизації</returns>
         /// <remarks>Awesomeness!</remarks>
         /// <response code="200">Login user</response>
@@ -113,6 +113,50 @@ namespace WebAtb.Controllers
             {
                 return BadRequest(new { error = "Помилка на сервері. " + ex.Message });
             }
+        }
+
+        [HttpPut]
+        //[Authorize]
+        [Route("updateuser")]
+        public async Task<IActionResult> UpdateUser([FromBody] UserEditViewModel model)
+        {
+            
+            Thread.Sleep(1000);
+            var user = _context.Users
+                .FirstOrDefault(x => x.Id == model.Id);
+            if (user == null)
+                return NotFound();
+            if (!string.IsNullOrEmpty(model.Photo))
+            {
+                var img = ImageWorker.FromBase64StringToImage(model.Photo);
+                string randomFilename = Path.GetRandomFileName() + ".jpeg";
+                var dir = Path.Combine(Directory.GetCurrentDirectory(), "uploads", randomFilename);
+                img.Save(dir, ImageFormat.Jpeg);
+                user.Photo = randomFilename;
+            }
+            user.PhoneNumber = model.Phone;
+            user.FirstName = model.FirstName;
+            user.SecondName = model.SecondName;
+            
+            _context.SaveChanges();
+            return Ok(_mapper.Map<UserItemViewModel>(user));
+        }
+
+        [HttpPost]
+        [Route("delete")]
+
+        public IActionResult Delete([FromBody] UserDelViewModel model)
+        {
+
+            var res = _context.Users.FirstOrDefault(x => x.Id == model.Id);
+            if (res == null)
+            {
+                return BadRequest(new { message = "Check id!" });
+            }
+
+            _context.Users.Remove(res);
+            _context.SaveChanges();
+            return Ok(new { message = "User deleted" });
         }
     }
 }
