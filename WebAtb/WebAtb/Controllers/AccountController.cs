@@ -22,16 +22,17 @@ namespace WebAtb.Controllers
         private readonly IJwtTokenService  _jwtTokenService;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly AppEFContext _context;
+        private IHostEnvironment _host;
 
         public AccountController(UserManager<AppUser> userManeger, SignInManager<AppUser> signInManager,
-            AppEFContext context,IMapper mapper, IJwtTokenService jwtTokenService)
+            AppEFContext context,IMapper mapper, IJwtTokenService jwtTokenService, IHostEnvironment host)
         {
             _userManager = userManeger;
             _signInManager = signInManager;
             _mapper = mapper;
             _jwtTokenService = jwtTokenService;
             _context = context;
-
+            _host = host;
         }
 
         [HttpPost]
@@ -115,7 +116,7 @@ namespace WebAtb.Controllers
             }
         }
 
-        [HttpPut]
+       /* [HttpPut]
         //[Authorize]
         [Route("updateuser")]
         public async Task<IActionResult> UpdateUser([FromBody] UserEditViewModel model)
@@ -140,7 +141,7 @@ namespace WebAtb.Controllers
             
             _context.SaveChanges();
             return Ok(_mapper.Map<UserItemViewModel>(user));
-        }
+        }*/
 
         [HttpPost]
         [Route("delete")]
@@ -157,6 +158,50 @@ namespace WebAtb.Controllers
             _context.Users.Remove(res);
             _context.SaveChanges();
             return Ok(new { message = "User deleted" });
+        }
+
+        [HttpPut]
+        //[Authorize]
+        [Route("edit")]
+        public async Task<IActionResult> EditUser([FromForm] UserEditViewModel model)
+        {
+            var res = _context.Users.FirstOrDefault(x => x.Id == model.Id);
+
+            if (model == null)
+            {
+                return BadRequest(new { message = "Не зашла инфа" });
+            }
+
+            res.PhoneNumber = model.Phone;
+            res.FirstName = model.FirstName;
+            res.SecondName = model.SecondName;
+
+
+            string fileName = string.Empty;
+
+            if (model.Photo != null)
+            {
+                var img = ImageWorker.FromBase64StringToImage(model.Photo);
+                string randomFilename = Path.GetRandomFileName() + ".jpeg";
+                var dir = Path.Combine(Directory.GetCurrentDirectory(), "uploads", randomFilename);
+                img.Save(dir, ImageFormat.Jpeg);
+                var oldImage = res.Photo;
+                
+
+                
+                string fol = "\\uploads\\";
+                string contentRootPath = _host.ContentRootPath + fol + oldImage;
+
+                if (System.IO.File.Exists(contentRootPath))
+                {
+                    System.IO.File.Delete(contentRootPath);
+                }
+                    res.Photo = randomFilename;
+                
+            }
+            _context.SaveChanges();
+
+            return Ok(new { message = "ok" });
         }
     }
 }
