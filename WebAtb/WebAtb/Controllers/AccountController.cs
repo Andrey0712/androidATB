@@ -72,7 +72,7 @@ namespace WebAtb.Controllers
         }*/
 
         [HttpGet]
-        [Authorize]
+        //[Authorize]
         [Route("users")]
         public async Task<IActionResult> Users()
         {
@@ -160,12 +160,13 @@ namespace WebAtb.Controllers
             return Ok(new { message = "User deleted" });
         }
 
-        [HttpPut]
+        //[HttpPut]
         //[Authorize]
+        [HttpPost]
         [Route("edit")]
         public async Task<IActionResult> EditUser([FromForm] UserEditViewModel model)
         {
-            var res = _context.Users.FirstOrDefault(x => x.Id == model.Id);
+            var res = _context.Users.FirstOrDefault(x => x.Email == model.Email);
 
             if (model == null)
             {
@@ -201,7 +202,8 @@ namespace WebAtb.Controllers
             }
             _context.SaveChanges();
 
-            return Ok(new { message = "ok" });
+            //return Ok(new { message = "ok" });
+            return Ok(new TokenResponceViewModel { token = _jwtTokenService.CreateToken(res) });
         }
     }
 }
