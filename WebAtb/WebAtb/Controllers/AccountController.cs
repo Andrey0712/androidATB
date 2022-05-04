@@ -52,6 +52,8 @@ namespace WebAtb.Controllers
 
 
             return Ok(new { token = _jwtTokenService.CreateToken(user) });
+
+
         }
 
         /*[HttpPost]
@@ -164,7 +166,7 @@ namespace WebAtb.Controllers
         //[Authorize]
         [HttpPost]
         [Route("edit")]
-        public async Task<IActionResult> EditUser([FromForm] UserEditViewModel model)
+        public IActionResult EditUser([FromForm] RegisterViewModel model)
         {
             var res = _context.Users.FirstOrDefault(x => x.Email == model.Email);
 
