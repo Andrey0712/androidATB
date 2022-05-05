@@ -10,7 +10,9 @@ using Newtonsoft.Json.Serialization;
 using System.Reflection;
 using System.Text;
 using WebAtb.Data;
+using WebAtb.Data.Entities;
 using WebAtb.Data.Entities.Identity;
+using WebAtb.Helpers;
 using WebAtb.Mapper;
 using WebAtb.Servise;
 
@@ -100,6 +102,8 @@ builder.Services.AddCors();
 
 var app = builder.Build();
 
+app.UseLoggerFile();
+
 app.UseCors(options =>
                 options.AllowAnyMethod().AllowAnyOrigin().AllowAnyHeader());
 
@@ -132,5 +136,5 @@ app.UseAuthorization();
 
 
 app.MapControllers();
-
+app.SeederData();
 app.Run();
