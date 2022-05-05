@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Drawing.Imaging;
+using WebAtb.Constants;
 using WebAtb.Data;
 using WebAtb.Data.Entities.Identity;
 using WebAtb.Helpers;
@@ -23,9 +24,12 @@ namespace WebAtb.Controllers
         private readonly SignInManager<AppUser> _signInManager;
         private readonly AppEFContext _context;
         private IHostEnvironment _host;
+        private readonly RoleManager<AppRole> _roleManager;
+        private readonly ILogger<AccountController> _logger;
 
         public AccountController(UserManager<AppUser> userManeger, SignInManager<AppUser> signInManager,
-            AppEFContext context,IMapper mapper, IJwtTokenService jwtTokenService, IHostEnvironment host)
+            AppEFContext context,IMapper mapper, IJwtTokenService jwtTokenService, IHostEnvironment host, 
+            ILogger<AccountController> logger, RoleManager<AppRole> roleManager)
         {
             _userManager = userManeger;
             _signInManager = signInManager;
@@ -33,19 +37,33 @@ namespace WebAtb.Controllers
             _jwtTokenService = jwtTokenService;
             _context = context;
             _host = host;
+            _logger = logger;
+            _roleManager = roleManager;
         }
 
         [HttpPost]
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] RegisterViewModel model)
         {
+            
+            var rez = _roleManager.CreateAsync(new AppRole
+            {
+                Name = Roles.User
+            }).Result;
+
             var img = ImageWorker.FromBase64StringToImage(model.Photo);
             string randomFilename = Path.GetRandomFileName() + ".jpeg";
             var dir = Path.Combine(Directory.GetCurrentDirectory(), "uploads", randomFilename);
             img.Save(dir, ImageFormat.Jpeg);
             var user = _mapper.Map<AppUser>(model);
             user.Photo = randomFilename;
+            
             var result = await _userManager.CreateAsync(user, model.Password);
+
+            if (result.Succeeded)
+            {
+                result = _userManager.AddToRoleAsync(user, Roles.User).Result;
+            }
 
             if (!result.Succeeded)
                 return BadRequest(new { errors = result.Errors });
@@ -98,7 +116,7 @@ namespace WebAtb.Controllers
         [Route("login")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TokenResponceViewModel))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Login([FromBody] LoginUserModel model)
+        /*public async Task<IActionResult> Login([FromBody] LoginUserModel model)
         {
             try
             {
@@ -116,34 +134,49 @@ namespace WebAtb.Controllers
             {
                 return BadRequest(new { error = "Помилка на сервері. " + ex.Message });
             }
+        }*/
+
+        public async Task<IActionResult> Login([FromBody] LoginUserModel model)
+        {
+            _logger.LogInformation("Login user");
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user != null)
+            {
+                //throw new AppException("Bad login user");
+                if (await _userManager.CheckPasswordAsync(user, model.Password))
+                {
+                    return Ok(new TokenResponceViewModel { token = _jwtTokenService.CreateToken(user) });
+                }
+            }
+            return BadRequest(new { error = "Користувача не знайдено" });
         }
 
-       /* [HttpPut]
-        //[Authorize]
-        [Route("updateuser")]
-        public async Task<IActionResult> UpdateUser([FromBody] UserEditViewModel model)
-        {
-            
-            Thread.Sleep(1000);
-            var user = _context.Users
-                .FirstOrDefault(x => x.Id == model.Id);
-            if (user == null)
-                return NotFound();
-            if (!string.IsNullOrEmpty(model.Photo))
-            {
-                var img = ImageWorker.FromBase64StringToImage(model.Photo);
-                string randomFilename = Path.GetRandomFileName() + ".jpeg";
-                var dir = Path.Combine(Directory.GetCurrentDirectory(), "uploads", randomFilename);
-                img.Save(dir, ImageFormat.Jpeg);
-                user.Photo = randomFilename;
-            }
-            user.PhoneNumber = model.Phone;
-            user.FirstName = model.FirstName;
-            user.SecondName = model.SecondName;
-            
-            _context.SaveChanges();
-            return Ok(_mapper.Map<UserItemViewModel>(user));
-        }*/
+        /* [HttpPut]
+         //[Authorize]
+         [Route("updateuser")]
+         public async Task<IActionResult> UpdateUser([FromBody] UserEditViewModel model)
+         {
+
+             Thread.Sleep(1000);
+             var user = _context.Users
+                 .FirstOrDefault(x => x.Id == model.Id);
+             if (user == null)
+                 return NotFound();
+             if (!string.IsNullOrEmpty(model.Photo))
+             {
+                 var img = ImageWorker.FromBase64StringToImage(model.Photo);
+                 string randomFilename = Path.GetRandomFileName() + ".jpeg";
+                 var dir = Path.Combine(Directory.GetCurrentDirectory(), "uploads", randomFilename);
+                 img.Save(dir, ImageFormat.Jpeg);
+                 user.Photo = randomFilename;
+             }
+             user.PhoneNumber = model.Phone;
+             user.FirstName = model.FirstName;
+             user.SecondName = model.SecondName;
+
+             _context.SaveChanges();
+             return Ok(_mapper.Map<UserItemViewModel>(user));
+         }*/
 
         [HttpPost]
         [Route("delete")]

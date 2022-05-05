@@ -1,5 +1,6 @@
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
@@ -14,9 +15,14 @@ using WebAtb.Data.Entities;
 using WebAtb.Data.Entities.Identity;
 using WebAtb.Helpers;
 using WebAtb.Mapper;
+using WebAtb.Middleware;
 using WebAtb.Servise;
 
 var builder = WebApplication.CreateBuilder(args);
+
+string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+//var serverVersion = new MySqlServerVersion(ServerVersion.AutoDetect(connectionString));
+var serverVersion = new MariaDbServerVersion(ServerVersion.AutoDetect(connectionString));
 
 builder.Services.AddDbContext<AppEFContext>(options =>
    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -102,6 +108,12 @@ builder.Services.AddCors();
 
 var app = builder.Build();
 
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+});
+
+
 app.UseLoggerFile();
 
 app.UseCors(options =>
@@ -136,5 +148,8 @@ app.UseAuthorization();
 
 
 app.MapControllers();
+
+app.UseCustomExceptionHandler();
+
 app.SeederData();
 app.Run();
