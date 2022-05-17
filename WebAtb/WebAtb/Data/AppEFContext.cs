@@ -17,6 +17,7 @@ namespace WebAtb.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
+        public DbSet<UserProduct> UserProduct { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -33,6 +34,22 @@ namespace WebAtb.Data
                 userRole.HasOne(ur => ur.User)
                     .WithMany(r => r.UserRoles)
                     .HasForeignKey(ur => ur.UserId)
+                    .IsRequired();
+            });
+
+            base.OnModelCreating(builder);
+            builder.Entity<UserProduct>(userProd =>
+            {
+                userProd.HasKey(tp => new { tp.UserId, tp.ProductId });
+
+                userProd.HasOne(tp => tp.User)
+                    .WithMany(t => t.UserProduct)
+                    .HasForeignKey(tp => tp.UserId)
+                    .IsRequired();
+
+                userProd.HasOne(tp => tp.Product)
+                    .WithMany(t => t.UserProduct)
+                    .HasForeignKey(tp => tp.ProductId)
                     .IsRequired();
             });
         }

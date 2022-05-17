@@ -14,5 +14,6 @@ namespace WebAtb.Data.Entities.Identity
         [StringLength(20)]
         public string Phone { get; set; }
         public virtual ICollection<AppUserRole> UserRoles { get; set; }
+        public virtual ICollection<UserProduct> UserProduct { get; set; }
     }
 }

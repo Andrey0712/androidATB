@@ -22,5 +22,6 @@ namespace WebAtb.Data.Entities
         public int ProductCategoryId { get; set; }
         public virtual ProductCategory ProductCategory { get; set; }
         public virtual ICollection<ProductImage> ProductImages { get; set; }
+        public virtual ICollection<UserProduct> UserProduct { get; set; }
     }
 }
