@@ -1,0 +1,23 @@
+2022-05-11T22:52:03.0634570+03:00  [INF] Seeding Databases (1466a039)
+2022-05-11T22:52:05.3648516+03:00  [INF] Entity Framework Core "6.0.3" initialized '"AppEFContext"' using provider '"Npgsql.EntityFrameworkCore.PostgreSQL":"6.0.3+94d0a8eaeb9cf5af6ce55a9e59153c1a1be3244f"' with options: "None" (d2805559)
+2022-05-11T22:52:07.5982003+03:00  [INF] Executed DbCommand ("135"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');" (0723d8ff)
+2022-05-11T22:52:08.0794901+03:00  [INF] Executed DbCommand ("138"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');" (0723d8ff)
+2022-05-11T22:52:08.2434698+03:00  [INF] Executed DbCommand ("144"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT \"MigrationId\", \"ProductVersion\"
+FROM \"__EFMigrationsHistory\"
+ORDER BY \"MigrationId\";" (0723d8ff)
+2022-05-11T22:52:08.2780301+03:00  [INF] No migrations were applied. The database is already up to date. (503cba9d)
+2022-05-11T22:52:08.8603954+03:00  [INF] Executed DbCommand ("202"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT EXISTS (
+    SELECT 1
+    FROM \"AspNetRoles\" AS a)" (0723d8ff)
+2022-05-11T22:52:08.9238704+03:00  [INF] Executed DbCommand ("55"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT EXISTS (
+    SELECT 1
+    FROM \"AspNetUsers\" AS a)" (0723d8ff)
+2022-05-11T22:52:09.1937163+03:00  [INF] Now listening on: "http://127.0.0.1:5227" (d826f4b8)
+2022-05-11T22:52:09.1939329+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-05-11T22:52:09.1940174+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-05-11T22:52:09.1940730+03:00  [INF] Content root path: "C:\ASP_Android\androidATB\androidATB\WebAtb\WebAtb\" (b5d60022)

@@ -1,0 +1,46 @@
+2022-05-13T11:16:25.2992160+03:00  [INF] Seeding Databases (1466a039)
+2022-05-13T11:16:27.1911683+03:00  [INF] Entity Framework Core "6.0.3" initialized '"AppEFContext"' using provider '"Npgsql.EntityFrameworkCore.PostgreSQL":"6.0.3+94d0a8eaeb9cf5af6ce55a9e59153c1a1be3244f"' with options: "None" (d2805559)
+2022-05-13T11:16:28.0704894+03:00  [INF] Executed DbCommand ("135"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');" (0723d8ff)
+2022-05-13T11:16:28.2228848+03:00  [INF] Executed DbCommand ("18"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');" (0723d8ff)
+2022-05-13T11:16:28.2629731+03:00  [INF] Executed DbCommand ("20"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT \"MigrationId\", \"ProductVersion\"
+FROM \"__EFMigrationsHistory\"
+ORDER BY \"MigrationId\";" (0723d8ff)
+2022-05-13T11:16:28.2996356+03:00  [INF] No migrations were applied. The database is already up to date. (503cba9d)
+2022-05-13T11:16:28.7058323+03:00  [INF] Executed DbCommand ("20"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT EXISTS (
+    SELECT 1
+    FROM \"AspNetRoles\" AS a)" (0723d8ff)
+2022-05-13T11:16:28.7311883+03:00  [INF] Executed DbCommand ("17"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT EXISTS (
+    SELECT 1
+    FROM \"AspNetUsers\" AS a)" (0723d8ff)
+2022-05-13T11:16:28.9116482+03:00  [INF] Now listening on: "http://127.0.0.1:5227" (d826f4b8)
+2022-05-13T11:16:28.9118203+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-05-13T11:16:28.9119320+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-05-13T11:16:28.9119886+03:00  [INF] Content root path: "C:\ASP_Android\androidATB\androidATB\WebAtb\WebAtb\" (b5d60022)
+2022-05-13T11:22:57.4642876+03:00  [INF] Seeding Databases (1466a039)
+2022-05-13T11:22:59.4562313+03:00  [INF] Entity Framework Core "6.0.3" initialized '"AppEFContext"' using provider '"Npgsql.EntityFrameworkCore.PostgreSQL":"6.0.3+94d0a8eaeb9cf5af6ce55a9e59153c1a1be3244f"' with options: "None" (d2805559)
+2022-05-13T11:23:00.4464859+03:00  [INF] Executed DbCommand ("134"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');" (0723d8ff)
+2022-05-13T11:23:00.6145097+03:00  [INF] Executed DbCommand ("20"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');" (0723d8ff)
+2022-05-13T11:23:00.6569055+03:00  [INF] Executed DbCommand ("25"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT \"MigrationId\", \"ProductVersion\"
+FROM \"__EFMigrationsHistory\"
+ORDER BY \"MigrationId\";" (0723d8ff)
+2022-05-13T11:23:00.6916365+03:00  [INF] No migrations were applied. The database is already up to date. (503cba9d)
+2022-05-13T11:23:01.0621946+03:00  [INF] Executed DbCommand ("18"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT EXISTS (
+    SELECT 1
+    FROM \"AspNetRoles\" AS a)" (0723d8ff)
+2022-05-13T11:23:01.0907827+03:00  [INF] Executed DbCommand ("21"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT EXISTS (
+    SELECT 1
+    FROM \"AspNetUsers\" AS a)" (0723d8ff)
+2022-05-13T11:23:01.1997476+03:00  [INF] Now listening on: "http://127.0.0.1:5227" (d826f4b8)
+2022-05-13T11:23:01.2000578+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-05-13T11:23:01.2002257+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-05-13T11:23:01.2005755+03:00  [INF] Content root path: "C:\ASP_Android\androidATB\androidATB\WebAtb\WebAtb\" (b5d60022)

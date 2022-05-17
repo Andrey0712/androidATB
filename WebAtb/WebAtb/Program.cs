@@ -22,7 +22,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 //var serverVersion = new MySqlServerVersion(ServerVersion.AutoDetect(connectionString));
-var serverVersion = new MariaDbServerVersion(ServerVersion.AutoDetect(connectionString));
+//var serverVersion = new MariaDbServerVersion(ServerVersion.AutoDetect(connectionString));
 
 builder.Services.AddDbContext<AppEFContext>(options =>
    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));

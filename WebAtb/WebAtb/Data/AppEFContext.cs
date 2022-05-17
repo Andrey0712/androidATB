@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using WebAtb.Data.Entities;
 using WebAtb.Data.Entities.Identity;
 
 namespace WebAtb.Data
@@ -13,6 +14,9 @@ namespace WebAtb.Data
             base(options)
         {
         }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ProductImage> ProductImages { get; set; }
+        public DbSet<ProductCategory> ProductCategories { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
