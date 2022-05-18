@@ -1,0 +1,36 @@
+2022-05-18T12:16:19.2997357+03:00  [INF] Seeding Databases (1466a039)
+2022-05-18T12:16:21.4707595+03:00  [WRN] The foreign key property '"AppUserRole"."RoleId1"' was created in shadow state because a conflicting property with the simple name '"RoleId"' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core. (94de1fc5)
+2022-05-18T12:16:21.4715351+03:00  [WRN] The foreign key property '"AppUserRole"."UserId1"' was created in shadow state because a conflicting property with the simple name '"UserId"' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core. (94de1fc5)
+2022-05-18T12:16:21.8818156+03:00  [INF] Entity Framework Core "6.0.3" initialized '"AppEFContext"' using provider '"Npgsql.EntityFrameworkCore.PostgreSQL":"6.0.3+94d0a8eaeb9cf5af6ce55a9e59153c1a1be3244f"' with options: "None" (d2805559)
+2022-05-18T12:16:22.8344917+03:00  [INF] Executed DbCommand ("138"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');" (0723d8ff)
+2022-05-18T12:16:22.9850631+03:00  [INF] Executed DbCommand ("18"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');" (0723d8ff)
+2022-05-18T12:16:23.0262330+03:00  [INF] Executed DbCommand ("21"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT \"MigrationId\", \"ProductVersion\"
+FROM \"__EFMigrationsHistory\"
+ORDER BY \"MigrationId\";" (0723d8ff)
+2022-05-18T12:16:23.0641187+03:00  [INF] No migrations were applied. The database is already up to date. (503cba9d)
+2022-05-18T12:16:23.5286085+03:00  [INF] Executed DbCommand ("20"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT EXISTS (
+    SELECT 1
+    FROM \"AspNetRoles\" AS a)" (0723d8ff)
+2022-05-18T12:16:23.5635117+03:00  [INF] Executed DbCommand ("25"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT EXISTS (
+    SELECT 1
+    FROM \"AspNetUsers\" AS a)" (0723d8ff)
+2022-05-18T12:16:23.5846975+03:00  [INF] Executed DbCommand ("18"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT EXISTS (
+    SELECT 1
+    FROM \"tblCategory\" AS t)" (0723d8ff)
+2022-05-18T12:16:23.9004989+03:00  [INF] Executed DbCommand ("38"ms) [Parameters=["@p0='?', @p1='?'"], CommandType='Text', CommandTimeout='30']"
+""INSERT INTO \"tblCategory\" (\"Name\")
+VALUES (@p0)
+RETURNING \"Id\";
+INSERT INTO \"tblCategory\" (\"Name\")
+VALUES (@p1)
+RETURNING \"Id\";" (0723d8ff)
+2022-05-18T12:16:24.2111824+03:00  [INF] Now listening on: "http://127.0.0.1:5227" (d826f4b8)
+2022-05-18T12:16:24.2113841+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-05-18T12:16:24.2114591+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2022-05-18T12:16:24.2115749+03:00  [INF] Content root path: "C:\ASP_Android\androidATB\androidATB\WebAtb\WebAtb\" (b5d60022)

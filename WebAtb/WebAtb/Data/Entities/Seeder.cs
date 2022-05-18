@@ -20,6 +20,7 @@ namespace WebAtb.Data.Entities
                     context.Database.Migrate();
 
                     SeedRole(services);//сидим роли
+                    SeedCateory(services);
                 }
                 catch (Exception)
                 {
@@ -66,6 +67,26 @@ namespace WebAtb.Data.Entities
                 }
             }
 
+        }
+
+        private static void SeedCateory(IServiceProvider service)
+        {
+            var context = service.GetRequiredService<AppEFContext>();
+            if (!context.ProductCategories.Any())
+            {
+                context.ProductCategories.AddRange(new List<ProductCategory>
+                {
+                    new ProductCategory
+                    {
+                        Name="Монети"
+                    },
+                    new ProductCategory
+                    {
+                        Name="Марки"
+                    }
+                });
+                context.SaveChanges();
+            }
         }
     }
 }
