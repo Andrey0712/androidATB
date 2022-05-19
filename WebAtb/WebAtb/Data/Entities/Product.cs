@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using WebAtb.Data.Entities.Identity;
 
 namespace WebAtb.Data.Entities
 {
@@ -22,6 +23,6 @@ namespace WebAtb.Data.Entities
         public int ProductCategoryId { get; set; }
         public virtual ProductCategory ProductCategory { get; set; }
         public virtual ICollection<ProductImage> ProductImages { get; set; }
-        //public virtual ICollection<UserProduct> UserProduct { get; set; }
+        public virtual ICollection<UserProduct> UserProduct { get; set; }
     }
 }
