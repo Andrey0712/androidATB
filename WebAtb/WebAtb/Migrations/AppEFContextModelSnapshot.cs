@@ -230,19 +230,9 @@ namespace WebAtb.Migrations
                     b.Property<long>("RoleId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("RoleId1")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("UserId1")
-                        .HasColumnType("bigint");
-
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
-
-                    b.HasIndex("RoleId1");
-
-                    b.HasIndex("UserId1");
 
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
@@ -330,21 +320,6 @@ namespace WebAtb.Migrations
                     b.ToTable("btlProductImages");
                 });
 
-            modelBuilder.Entity("WebAtb.Data.Entities.UserProduct", b =>
-                {
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("UserId", "ProductId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("tblUserProduct");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
                 {
                     b.HasOne("WebAtb.Data.Entities.Identity.AppRole", null)
@@ -383,25 +358,17 @@ namespace WebAtb.Migrations
 
             modelBuilder.Entity("WebAtb.Data.Entities.Identity.AppUserRole", b =>
                 {
-                    b.HasOne("WebAtb.Data.Entities.Identity.AppRole", null)
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("WebAtb.Data.Entities.Identity.AppRole", "Role")
                         .WithMany("UserRoles")
-                        .HasForeignKey("RoleId1");
-
-                    b.HasOne("WebAtb.Data.Entities.Identity.AppUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("WebAtb.Data.Entities.Identity.AppUser", "User")
                         .WithMany("UserRoles")
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Role");
 
@@ -430,25 +397,6 @@ namespace WebAtb.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("WebAtb.Data.Entities.UserProduct", b =>
-                {
-                    b.HasOne("WebAtb.Data.Entities.Product", "Product")
-                        .WithMany("UserProduct")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebAtb.Data.Entities.Identity.AppUser", "User")
-                        .WithMany("UserProduct")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("WebAtb.Data.Entities.Identity.AppRole", b =>
                 {
                     b.Navigation("UserRoles");
@@ -456,16 +404,12 @@ namespace WebAtb.Migrations
 
             modelBuilder.Entity("WebAtb.Data.Entities.Identity.AppUser", b =>
                 {
-                    b.Navigation("UserProduct");
-
                     b.Navigation("UserRoles");
                 });
 
             modelBuilder.Entity("WebAtb.Data.Entities.Product", b =>
                 {
                     b.Navigation("ProductImages");
-
-                    b.Navigation("UserProduct");
                 });
 
             modelBuilder.Entity("WebAtb.Data.Entities.ProductCategory", b =>

@@ -21,6 +21,7 @@ namespace WebAtb.Data.Entities
 
                     SeedRole(services);//сидим роли
                     SeedCateory(services);
+                    SeedProduct(services);
                 }
                 catch (Exception)
                 {
@@ -87,6 +88,153 @@ namespace WebAtb.Data.Entities
                 });
                 context.SaveChanges();
             }
+
+           /* if (!context.Products.Any())
+            {
+                var productCategory = context.ProductCategories.FirstOrDefault();
+
+
+                Product product = new Product
+                {
+                    ProductCategoryId = productCategory.Id,
+                    Name = "Дукат",
+                    Description = "Золото.",
+                    //DateCreate = DateTime.Now,
+                    //DateFinish = DateTime.Now.AddDays(2),
+                    Price = 500,
+                    StartPhoto = "https://monety.com.ua/images/thumbs/0013855_zolota-moneta-1-dukat-gold-1-ducat-349gramm_550.jpeg",
+                    ProductImages = new List<ProductImage>
+                    {
+                        new ProductImage
+                        {
+                            ProductId=1,
+                            Name="https://skupkamonet.com.ua/modules/ajaxzoom/axZm/zoomLoad.php?azImg=/img/p/3/8/3/8/3838.jpg&qual=80&width=1200&height=1200"
+                        },
+                        new ProductImage
+                        {
+                            ProductId=1,
+                            Name="https://vechi.com.ua/images/stories/fcoin/austria/1-dukat-1915-zoloto-austria.jpg"
+                        }
+                    }
+
+                };
+
+                context.Products.Add(product);
+
+                context.SaveChanges();
+            }*/
+        }
+
+        
+
+        private static void SeedProduct(IServiceProvider service)
+        {
+            
+            var context = service.GetRequiredService<AppEFContext>();
+
+            if (!context.Products.Any())
+            {
+                var productCategory = context.ProductCategories.FirstOrDefault();
+
+
+                Product product = new Product
+                {
+                    ProductCategoryId = productCategory.Id,
+                    Name="Дукат",
+                    Description = "Золото.",
+                    //DateCreate = DateTime.Now,
+                    //DateFinish = DateTime.Now.AddDays(2),
+                    Price = 500,
+                    StartPhoto = "https://monety.com.ua/images/thumbs/0013855_zolota-moneta-1-dukat-gold-1-ducat-349gramm_550.jpeg",
+                    ProductImages = new List<ProductImage>
+                    {
+                        new ProductImage
+                        {
+                            ProductId=1,
+                            Name="https://skupkamonet.com.ua/modules/ajaxzoom/axZm/zoomLoad.php?azImg=/img/p/3/8/3/8/3838.jpg&qual=80&width=1200&height=1200"
+                        },
+                        new ProductImage
+                        {
+                            ProductId=1,
+                            Name="https://vechi.com.ua/images/stories/fcoin/austria/1-dukat-1915-zoloto-austria.jpg"
+                        }
+                    }
+
+                };
+
+                context.Products.Add(product);
+
+                context.SaveChanges();
+
+
+               /* context.ProductImages.AddRange(new List<ProductImage>
+                {
+                    new ProductImage
+                    {
+                        ProductId=product.Id,
+                            Name="https://skupkamonet.com.ua/modules/ajaxzoom/axZm/zoomLoad.php?azImg=/img/p/3/8/3/8/3838.jpg&qual=80&width=1200&height=1200"
+                    },
+                    new ProductImage
+                    {
+                        ProductId=product.Id,
+                            Name="https://vechi.com.ua/images/stories/fcoin/austria/1-dukat-1915-zoloto-austria.jpg"
+                    }
+                });
+                
+                context.SaveChanges();*/
+
+                /*context.Products.Add(product);
+                var images = new List<ProductImage>
+                    {
+                        new ProductImage
+                        {
+                            ProductId=product.Id,
+                            Name="https://skupkamonet.com.ua/modules/ajaxzoom/axZm/zoomLoad.php?azImg=/img/p/3/8/3/8/3838.jpg&qual=80&width=1200&height=1200"
+                        },
+                        new ProductImage
+                        {
+                            ProductId=product.Id,
+                            Name="https://vechi.com.ua/images/stories/fcoin/austria/1-dukat-1915-zoloto-austria.jpg"
+                        }
+                    };
+                foreach (var img in images)
+                {
+                    context.ProductImages.Add(img);
+                    context.SaveChanges();
+                }*/
+
+                /*product.ProductImages = images;
+                context.Products.Add(product);
+                context.SaveChanges();*/
+
+            }
+           /* if (!context.ProductImages.Any())
+            {
+                //var product = context.Products.FirstOrDefault();
+                var images = new List<ProductImage>
+                    {
+                        new ProductImage
+                        {
+                            ProductId=0,
+                            Name="https://skupkamonet.com.ua/modules/ajaxzoom/axZm/zoomLoad.php?azImg=/img/p/3/8/3/8/3838.jpg&qual=80&width=1200&height=1200"
+                        },
+                        new ProductImage
+                        {
+                            ProductId=0,
+                            Name="https://vechi.com.ua/images/stories/fcoin/austria/1-dukat-1915-zoloto-austria.jpg"
+                        }
+                    };
+                *//*foreach (var img in images)
+                {
+                    context.Add(img);
+                    context.SaveChanges();
+                }*//*
+                //product.ProductImages = images;
+                //context.Products.Add(product);
+                context.SaveChanges();
+
+            }*/
+
         }
     }
 }

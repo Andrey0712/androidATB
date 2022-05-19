@@ -12,8 +12,8 @@ using WebAtb.Data;
 namespace WebAtb.Migrations
 {
     [DbContext(typeof(AppEFContext))]
-    [Migration("20220517090307_Add tblProduct tblProductImae tblCategory")]
-    partial class AddtblProducttblProductImaetblCategory
+    [Migration("20220519144713_add oll tbl")]
+    partial class addolltbl
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
