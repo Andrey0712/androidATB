@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using System.Globalization;
+using WebAtb.Data.Entities;
 using WebAtb.Data.Entities.Identity;
 using WebAtb.Model;
 
@@ -8,6 +10,8 @@ namespace WebAtb.Mapper
     {
         public AppMapProfile()
         {
+            var cultureInfo = new CultureInfo("uk-UA");
+
             CreateMap<RegisterViewModel, AppUser>()
                 .ForMember(x => x.Photo, opt => opt.Ignore())
                 .ForMember(x => x.UserName, opt => opt.MapFrom(x => x.Email))
@@ -27,6 +31,12 @@ namespace WebAtb.Mapper
                 .ForMember(x => x.SecondName, opt => opt.MapFrom(opt => opt.SecondName))
                 .ForMember(x => x.Email, opt => opt.Ignore())
                 .ForMember(x => x.Phone, opt => opt.MapFrom(opt => opt.Phone));
+
+
+            //мепери для категорії
+            CreateMap<CreateCategoryViewModel, ProductCategory>();
+            CreateMap<ProductCategory, CategoryItemViewModel>();
+
         }
 
         
