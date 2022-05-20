@@ -37,6 +37,14 @@ namespace WebAtb.Mapper
             CreateMap<CreateCategoryViewModel, ProductCategory>();
             CreateMap<ProductCategory, CategoryItemViewModel>();
 
+            //мепери для продукт
+            //CreateMap<CreateCategoryViewModel, ProductCategory>();
+            CreateMap<Product, ProductItemViewModel>()
+                .ForMember(x => x.DateFinish, opt => opt.MapFrom(x =>
+                    x.DateFinish.ToString("dd.MM.yyyy HH:mm:ss")))
+               .ForMember(x => x.Price, opt => opt.MapFrom(x => x.Price.ToString(cultureInfo)))
+               .ForMember(x => x.StartPhoto, opt => opt.MapFrom(x => $"/images/{x.StartPhoto}"));
+
         }
 
         
