@@ -74,8 +74,12 @@ namespace WebAtb.Controllers
         [Route("rate")]
         public IActionResult Rate(ProductRateViewModel model)
         {
-            //var product = null;
-            var res = _context.Products.Include(i => i.ProductImages).FirstOrDefault(x => x.Id == model.Id);
+           
+            var res = _context.Products
+                .Include(i => i.ProductImages)
+                .Include(i => i.ProductCategory)
+                .Include(i => i.UserProduct)
+                .FirstOrDefault(x => x.Id == model.Id);
             if (res == null)
             {
                 return BadRequest(new { message = "Check id!" });
@@ -86,7 +90,6 @@ namespace WebAtb.Controllers
                 if (res.DateFinish >= DateTime.Now || rate<model.Price)
                 {
 
-                    res.Id = model.Id;
                     res.Price = model.Price;
                     //res.Price = rate + 10;
                 }
@@ -96,7 +99,7 @@ namespace WebAtb.Controllers
                 }
 
             }
-            _context.Products.Add(res);
+            //_context.Products.Add(res);
             _context.SaveChanges();
             return Ok(new { message = "Add rate" });
         }
