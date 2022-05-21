@@ -54,7 +54,7 @@ namespace WebAtb.Controllers
 
             _context.ProductCategories.Remove(res);
             _context.SaveChanges();
-            return Ok(new { message = "User deleted" });
+            return Ok(new { message = "Category deleted" });
         }
     }
 }

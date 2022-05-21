@@ -23,6 +23,7 @@ namespace WebAtb.Data.Entities
                     SeedCateory(services);
                     SeedProduct(services);
                     SeedUserProd(services);
+                    
                 }
                 catch (Exception)
                 {

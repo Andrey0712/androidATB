@@ -38,12 +38,33 @@ namespace WebAtb.Mapper
             CreateMap<ProductCategory, CategoryItemViewModel>();
 
             //мепери для продукт
-            //CreateMap<CreateCategoryViewModel, ProductCategory>();
+            CreateMap<ProductAddViewModel, Product>()
+                .ForMember(x => x.ProductImages, opt => opt.Ignore())
+                .ForMember(x => x.DateCreate, opt => opt.MapFrom(x =>
+                    DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc)))
+                .ForMember(x => x.DateFinish, opt => opt.MapFrom(x =>
+                    DateTime.SpecifyKind(DateTime.Now.AddDays(2), DateTimeKind.Utc)))
+                .ForMember(x => x.StartPhoto, opt => opt.Ignore())
+                .ForMember(x => x.ProductCategoryId, opt => opt.MapFrom(opt => opt.ProductCategoryId))
+                .ForMember(x => x.Name, opt => opt.MapFrom(opt => opt.Name))
+                .ForMember(x => x.Price, opt => opt.MapFrom(opt => opt.Price))
+                .ForMember(x => x.Description, opt => opt.MapFrom(opt => opt.Description));
+
+
+
             CreateMap<Product, ProductItemViewModel>()
                 .ForMember(x => x.DateFinish, opt => opt.MapFrom(x =>
                     x.DateFinish.ToString("dd.MM.yyyy HH:mm:ss")))
                .ForMember(x => x.Price, opt => opt.MapFrom(x => x.Price.ToString(cultureInfo)))
                .ForMember(x => x.StartPhoto, opt => opt.MapFrom(x => $"/images/{x.StartPhoto}"));
+
+            /*CreateMap<Product, ProductViewModelImages>()
+                .ForMember(x => x.DateFinish, opt => opt.MapFrom(x =>
+                    x.DateFinish.ToString("dd.MM.yyyy HH:mm:ss")))
+                .ForMember(x => x.DateCreate, opt => opt.MapFrom(x =>
+                    x.DateCreate.ToString("dd.MM.yyyy HH:mm:ss")))
+               .ForMember(x => x.Price, opt => opt.MapFrom(x => x.Price.ToString(cultureInfo)))
+               .ForMember(x => x.StartPhoto, opt => opt.MapFrom(x => $"/images/{x.StartPhoto}"));*/
 
         }
 
