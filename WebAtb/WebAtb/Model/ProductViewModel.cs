@@ -57,4 +57,11 @@ namespace WebAtb.Model
     {
         public string Path { get; set; }
     }
+
+    public class ProductRateViewModel
+    {
+        [Display(Name = "Номер лота"), Required(ErrorMessage = "Поле не може бути пустим!")]
+        public int Id { get; set; }
+        public int Price { get; set; }
+    }
 }

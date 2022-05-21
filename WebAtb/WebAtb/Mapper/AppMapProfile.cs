@@ -58,13 +58,7 @@ namespace WebAtb.Mapper
                .ForMember(x => x.Price, opt => opt.MapFrom(x => x.Price.ToString(cultureInfo)))
                .ForMember(x => x.StartPhoto, opt => opt.MapFrom(x => $"/images/{x.StartPhoto}"));
 
-            /*CreateMap<Product, ProductViewModelImages>()
-                .ForMember(x => x.DateFinish, opt => opt.MapFrom(x =>
-                    x.DateFinish.ToString("dd.MM.yyyy HH:mm:ss")))
-                .ForMember(x => x.DateCreate, opt => opt.MapFrom(x =>
-                    x.DateCreate.ToString("dd.MM.yyyy HH:mm:ss")))
-               .ForMember(x => x.Price, opt => opt.MapFrom(x => x.Price.ToString(cultureInfo)))
-               .ForMember(x => x.StartPhoto, opt => opt.MapFrom(x => $"/images/{x.StartPhoto}"));*/
+            
 
         }
 

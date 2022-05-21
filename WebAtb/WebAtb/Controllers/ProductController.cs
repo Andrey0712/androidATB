@@ -71,6 +71,37 @@ namespace WebAtb.Controllers
         }
 
         [HttpPost]
+        [Route("rate")]
+        public IActionResult Rate(ProductRateViewModel model)
+        {
+            //var product = null;
+            var res = _context.Products.Include(i => i.ProductImages).FirstOrDefault(x => x.Id == model.Id);
+            if (res == null)
+            {
+                return BadRequest(new { message = "Check id!" });
+            }
+            else
+            {
+                var rate = res.Price;
+                if (res.DateFinish >= DateTime.Now || rate<model.Price)
+                {
+
+                    res.Id = model.Id;
+                    res.Price = model.Price;
+                    //res.Price = rate + 10;
+                }
+                else
+                {
+                    return BadRequest(new { message = "Лот закрыт" });
+                }
+
+            }
+            _context.Products.Add(res);
+            _context.SaveChanges();
+            return Ok(new { message = "Add rate" });
+        }
+
+        [HttpPost]
         [Route("add")]
         public async Task<IActionResult> Add([FromForm] ProductAddViewModel model)
         {
@@ -135,46 +166,6 @@ namespace WebAtb.Controllers
         }
 
 
-        /* [HttpPost]
-         public IActionResult Create(ProductAddViewModel model)
-         {
-             List<string> fileNames = new List<string>();
-             foreach (var item in model.Images)
-             {
-                 string fileName = "";
-                 if (item != null)
-                 {
-                     var ext = Path.GetExtension(item.FileName);
-                     fileName = Path.GetRandomFileName() + ext;
-                     var filePath = Path.Combine(Directory.GetCurrentDirectory(),
-                         "products", fileName);
-                     using (var stream = System.IO.File.Create(filePath))
-                     {
-                         item.CopyTo(stream);
-                     }
-                     fileNames.Add(fileName);
-                 }
-             }
-             Product product = new Product()
-             {
-                 Name = model.Name,
-                 Price = model.Price,
-
-             };
-             _context.Products.Add(product);
-             _context.SaveChanges();
-             int counter = 1;
-             foreach (var img in fileNames)
-             {
-                 ProductImage productImage = new ProductImage()
-                 {
-                     Name = img,
-                     ProductId = product.Id
-                 };
-                 _context.ProductImages.Add(productImage);
-                 _context.SaveChanges();
-             }
-             return RedirectToAction("Index");
-         }*/
+       
     }
 }
