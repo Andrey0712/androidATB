@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using WebAtb.Data.Entities;
 
 namespace WebAtb.Model
 {
@@ -64,4 +65,28 @@ namespace WebAtb.Model
         public int Id { get; set; }
         public int Price { get; set; }
     }
+
+    /// <summary>
+    /// Модель для зміни товару
+    /// </summary>
+    public class ProductImageToEdit
+    {
+        [Display(Name = "Id"), Required(ErrorMessage = "Поле 'Опис товару' не може бути пустим!")]
+        public int Id { get; set; }
+        [Display(Name = "Назва")]
+        public string Name { get; set; }
+        [Display(Name = "Ціна")]
+        public int Price { get; set; }
+        [Display(Name = "Опис товару")]
+        public string Description { get; set; }
+        [Display(Name = "Титульна фотографія")]
+        public IFormFile StartPhoto { get; set; }
+        //public string DateCreate { get; set; }
+        //public string DateFinish { get; set; }
+        //public List<ProductImage> Images { get; set; }
+        public List<IFormFile> Images { get; set; }//це для фото,які ми будемо додавати на вьюшці едіта.
+        public List<string> deletedImages { get; set; }//це для фото,які ми будемо видаляти на вьюшці едіта.
+    }
+
+    
 }

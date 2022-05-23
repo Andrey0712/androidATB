@@ -168,7 +168,93 @@ namespace WebAtb.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("editProduct")]
+        public IActionResult Edit([FromForm] ProductImageToEdit model)
+        {
+            /*
+                        if (!ModelState.IsValid)
+                        {
+                            ModelState.AddModelError("", "Дані введені не вірно");
+                            return View(modeledit);
+                        }*/
 
-       
+           
+            if (ModelState.IsValid)
+            {
+                var itemProd = _context.Products.Include(i => i.ProductImages).FirstOrDefault(x => x.Id == model.Id);
+                string dirPath = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
+
+                itemProd.Id = model.Id;
+                if (model.Name != null)
+                {
+                    itemProd.Name = model.Name;
+                }
+                if(model.Description != null)
+                {
+                    itemProd.Description = model.Description;
+                }
+                if (model.Price != 0)
+                {
+                    itemProd.Price = model.Price;
+                }
+                if (model.StartPhoto != null)
+                {
+                    string randomFilename = Path.GetRandomFileName() +
+                        Path.GetExtension(model.StartPhoto.FileName);
+                                        
+                    var startFoto = Path.Combine(dirPath, randomFilename);
+                    using (var file = System.IO.File.Create(startFoto))
+                    {
+                        model.StartPhoto.CopyTo(file);
+                    }
+                    itemProd.StartPhoto = randomFilename;
+                }
+                
+                //видаляємо сторі фотки
+                if (model.deletedImages != null)
+                {
+                    foreach (var delProduct in model.deletedImages)
+                    {
+                        var delProductImage = itemProd.ProductImages.SingleOrDefault(x => delProduct.Contains(x.Name));
+                        string imgPath = Path.Combine(dirPath, delProductImage.Name);
+                        if (System.IO.File.Exists(imgPath))
+                        {
+                            System.IO.File.Delete(imgPath);
+                        }
+                        _context.ProductImages.Remove(delProductImage);
+                    }
+                }
+                //Додати нові фотки
+                if (model.Images != null)
+                {
+                    foreach (var newImages in model.Images)
+                    {
+                        string ext = Path.GetExtension(newImages.FileName);
+                        string fileName = Path.GetRandomFileName() + ext;
+
+                        string filePath = Path.Combine(dirPath, fileName);
+                        using (var stream = System.IO.File.Create(filePath))
+                        {
+                            newImages.CopyTo(stream);
+                        }
+
+                        _context.ProductImages.Add(new Data.Entities.ProductImage
+                        {
+                            Name = fileName,
+                            ProductId = itemProd.Id
+                        });
+                    }
+                }
+
+                _context.SaveChanges();
+                                
+            }
+            
+            return Ok(new { message = "ok edit" });
+            //return RedirectToAction("Index");
+        }
+
+
     }
 }
