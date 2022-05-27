@@ -22,7 +22,9 @@ namespace WebAtb.Mapper
 
             //мепер для вівода юзера
             CreateMap<AppUser, UserItemViewModel>()
-                .ForMember(x => x.Photo, opt => opt.MapFrom(x => $"/images/{x.Photo}"));
+                .ForMember(x => x.FirstName, opt => opt.MapFrom(opt => opt.FirstName))
+                .ForMember(x => x.Email, opt => opt.MapFrom(opt => opt.Email))
+                .ForMember(x => x.Photo, opt => opt.MapFrom(x => $"/uploads/{x.Photo}"));
 
             CreateMap<UserEditViewModel, AppUser>()
                 .ForMember(x => x.Photo, opt => opt.Ignore())
@@ -56,7 +58,7 @@ namespace WebAtb.Mapper
                 .ForMember(x => x.DateFinish, opt => opt.MapFrom(x =>
                     x.DateFinish.ToString("dd.MM.yyyy HH:mm:ss")))
                .ForMember(x => x.Price, opt => opt.MapFrom(x => x.Price.ToString(cultureInfo)))
-               .ForMember(x => x.StartPhoto, opt => opt.MapFrom(x => $"/images/{x.StartPhoto}"));
+               .ForMember(x => x.StartPhoto, opt => opt.MapFrom(x => $"/uploads/{x.StartPhoto}"));
 
             
 

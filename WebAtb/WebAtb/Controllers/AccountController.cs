@@ -11,6 +11,11 @@ using WebAtb.Data.Entities.Identity;
 using WebAtb.Helpers;
 using WebAtb.Model;
 using WebAtb.Servise;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using System;
+using System.Collections.Generic;
 
 namespace WebAtb.Controllers
 {
@@ -43,20 +48,35 @@ namespace WebAtb.Controllers
 
         [HttpPost]
         [Route("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterViewModel model)
+        public async Task<IActionResult> Register([FromForm] RegisterViewModel model)
         {
-            
+            string fileName = String.Empty;
             var rez = _roleManager.CreateAsync(new AppRole
             {
                 Name = Roles.User
             }).Result;
+            var user = _mapper.Map<AppUser>(model);
 
-            var img = ImageWorker.FromBase64StringToImage(model.Photo);
+            if (model.Photo != null)
+            {
+                string randomFilename = Path.GetRandomFileName() +
+                    Path.GetExtension(model.Photo.FileName);
+
+                string dirPath = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
+                fileName = Path.Combine(dirPath, randomFilename);
+                using (var file = System.IO.File.Create(fileName))
+                {
+                    model.Photo.CopyTo(file);
+                }
+                user.Photo = randomFilename;
+            }
+
+            /*var img = ImageWorker.FromBase64StringToImage(model.Photo);
             string randomFilename = Path.GetRandomFileName() + ".jpeg";
             var dir = Path.Combine(Directory.GetCurrentDirectory(), "uploads", randomFilename);
             img.Save(dir, ImageFormat.Jpeg);
             var user = _mapper.Map<AppUser>(model);
-            user.Photo = randomFilename;
+            user.Photo = randomFilename;*/
             
             var result = await _userManager.CreateAsync(user, model.Password);
 
@@ -199,28 +219,60 @@ namespace WebAtb.Controllers
         //[Authorize]
         [HttpPost]
         [Route("edit")]
-        public IActionResult EditUser([FromForm] RegisterViewModel model)
+        public IActionResult EditUser([FromForm] UserEditViewModel model)
         {
-            var res = _context.Users.FirstOrDefault(x => x.Email == model.Email);
+            var res = _context.Users.FirstOrDefault(x => x.Id == model.Id);
 
             if (model == null)
             {
                 return BadRequest(new { message = "Не зашла инфа" });
             }
+            if (model.Email != null)
+            {
+                res.Email = model.Email;
+            }
+            if (model.Phone != null)
+            {
+                res.PhoneNumber = model.Phone;
+            }
 
-            res.PhoneNumber = model.Phone;
-            res.FirstName = model.FirstName;
-            res.SecondName = model.SecondName;
+            if (model.FirstName != null)
+            {
+                res.FirstName = model.FirstName;
+            }
+
+            if (model.SecondName != null)
+            {
+                res.SecondName = model.SecondName;
+            }
+
+            
 
 
             string fileName = string.Empty;
 
             if (model.Photo != null)
             {
-                var img = ImageWorker.FromBase64StringToImage(model.Photo);
+
+               
+                    string img = Path.GetRandomFileName() +
+                        Path.GetExtension(model.Photo.FileName);
+
+                    string dirPath = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
+                    fileName = Path.Combine(dirPath, img);
+                    using (var file = System.IO.File.Create(fileName))
+                    {
+                        model.Photo.CopyTo(file);
+                    }
+                //res.Photo = img;
+               
+
+               /* var img = ImageWorker.FromBase64StringToImage(model.Photo);
                 string randomFilename = Path.GetRandomFileName() + ".jpeg";
-                var dir = Path.Combine(Directory.GetCurrentDirectory(), "uploads", randomFilename);
-                img.Save(dir, ImageFormat.Jpeg);
+                var dir = Path.Combine(Directory.GetCurrentDirectory(), "uploads", randomFilename);*/
+                //img.Save(dir, ImageFormat.Jpeg);
+                
+                
                 var oldImage = res.Photo;
                 
 
@@ -232,7 +284,7 @@ namespace WebAtb.Controllers
                 {
                     System.IO.File.Delete(contentRootPath);
                 }
-                    res.Photo = randomFilename;
+                    res.Photo = img;
                 
             }
             _context.SaveChanges();

@@ -21,7 +21,8 @@ namespace WebAtb.Controllers
             _context = context;
         }
 
-        [HttpGet("list")]
+        [HttpGet]
+        [Route("list")]
         public async Task<IActionResult> Category()
         {
             Thread.Sleep(2000);
@@ -172,13 +173,7 @@ namespace WebAtb.Controllers
         [Route("editProduct")]
         public IActionResult Edit([FromForm] ProductImageToEdit model)
         {
-            /*
-                        if (!ModelState.IsValid)
-                        {
-                            ModelState.AddModelError("", "Дані введені не вірно");
-                            return View(modeledit);
-                        }*/
-
+            
            
             if (ModelState.IsValid)
             {
@@ -252,7 +247,7 @@ namespace WebAtb.Controllers
             }
             
             return Ok(new { message = "ok edit" });
-            //return RedirectToAction("Index");
+            
         }
 
 
