@@ -17,6 +17,7 @@ using WebAtb.Helpers;
 using WebAtb.Mapper;
 using WebAtb.Middleware;
 using WebAtb.Servise;
+using WebAtb.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,6 +42,11 @@ builder.Services.AddIdentity<AppUser, AppRole>(options =>
 builder.Services.AddAutoMapper(typeof(AppMapProfile));
 // Add services to the container.
 
+/*var googleAuthSettings = Configuration
+                .GetSection("GoogleAuthSettings")
+                .Get<GoogleAuthSettings>();
+
+builder.Services.AddSingleton(googleAuthSettings);*/
 
 // Add services to the container.
 

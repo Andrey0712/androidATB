@@ -292,5 +292,51 @@ namespace WebAtb.Controllers
             //return Ok(new { message = "ok" });
             return Ok(new TokenResponceViewModel { token = _jwtTokenService.CreateToken(res) });
         }
+
+
+        /*[HttpPost("GoogleExternalLogin")]
+        public async Task<IActionResult> GoogleExternalLoginAsync([FromBody] ExternalLoginRequest request)
+        {
+            var payload = await _jwtTokenService.VerifyGoogleToken(request);
+           *//* if (payload == null)
+            {
+                return BadRequest(new AccountError("Щось пішло не так!"));
+            }*//*
+            var info = new UserLoginInfo(request.Provider, payload.Subject, request.Provider);
+            var user = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
+
+            if (user == null)
+            {
+                user = await _userManager.FindByEmailAsync(payload.Email);
+
+                if (user == null)
+                {
+                    user = new AppUser
+                    {
+                        Email = payload.Email,
+                        UserName = payload.Email,
+                        FirstName = payload.GivenName,
+                        SecondName = payload.FamilyName
+                    };
+                    var resultCreate = await _userManager.CreateAsync(user);
+                    if (!resultCreate.Succeeded)
+                    {
+                        return BadRequest(new { message = "Щось пішло не так!" });
+                    }
+                }
+
+                var resultAddLogin = await _userManager.AddLoginAsync(user, info);
+                if (!resultAddLogin.Succeeded)
+                {
+                    return BadRequest(new { message = "Щось пішло не так!" });
+                }
+            }
+
+            string token = _jwtTokenService.CreateToken(user);
+            return Ok(
+                new { token }
+            );
+        }*/
     }
 }
+
