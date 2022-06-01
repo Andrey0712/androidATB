@@ -294,14 +294,14 @@ namespace WebAtb.Controllers
         }
 
 
-        /*[HttpPost("GoogleExternalLogin")]
+        [HttpPost("GoogleExternalLogin")]
         public async Task<IActionResult> GoogleExternalLoginAsync([FromBody] ExternalLoginRequest request)
         {
             var payload = await _jwtTokenService.VerifyGoogleToken(request);
-           *//* if (payload == null)
+            if (payload == null)
             {
-                return BadRequest(new AccountError("Щось пішло не так!"));
-            }*//*
+                return BadRequest(new { message = "Щось пішло не так!" });
+            }
             var info = new UserLoginInfo(request.Provider, payload.Subject, request.Provider);
             var user = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
 
@@ -332,11 +332,15 @@ namespace WebAtb.Controllers
                 }
             }
 
-            string token = _jwtTokenService.CreateToken(user);
+            return Ok(new TokenResponceViewModel { token = _jwtTokenService.CreateToken(user) }
+            /*string token = _jwtTokenService.CreateToken(user);
             return Ok(
-                new { token }
-            );
-        }*/
+                new { token }*/
+            
+            ) ;
+
+            int a = 12;
+        }
     }
 }
 

@@ -42,11 +42,11 @@ builder.Services.AddIdentity<AppUser, AppRole>(options =>
 builder.Services.AddAutoMapper(typeof(AppMapProfile));
 // Add services to the container.
 
-/*var googleAuthSettings = Configuration
+var googleAuthSettings = builder.Configuration
                 .GetSection("GoogleAuthSettings")
                 .Get<GoogleAuthSettings>();
 
-builder.Services.AddSingleton(googleAuthSettings);*/
+builder.Services.AddSingleton(googleAuthSettings);
 
 // Add services to the container.
 

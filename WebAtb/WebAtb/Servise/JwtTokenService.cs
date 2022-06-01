@@ -14,7 +14,7 @@ namespace WebAtb.Servise
     public interface IJwtTokenService
     {
         string CreateToken(AppUser user);
-        //Task<GoogleJsonWebSignature.Payload> VerifyGoogleToken(ExternalLoginRequest request);
+        Task<GoogleJsonWebSignature.Payload> VerifyGoogleToken(ExternalLoginRequest request);
     }
     public class JwtTokenService : IJwtTokenService
     {
@@ -23,12 +23,12 @@ namespace WebAtb.Servise
         private readonly GoogleAuthSettings _googleAuthSettings;
 
         public JwtTokenService(IConfiguration configuration,
-            //GoogleAuthSettings googleAuthSettings,
+            GoogleAuthSettings googleAuthSettings,
             UserManager<AppUser> userManager)
         {
             _configuration = configuration;
             _userManager = userManager;
-           // _googleAuthSettings = googleAuthSettings;
+            _googleAuthSettings = googleAuthSettings;
         }
 
         public string CreateToken(AppUser user)
@@ -62,7 +62,7 @@ namespace WebAtb.Servise
             return new JwtSecurityTokenHandler().WriteToken(jwt);
         }
 
-        /*public async Task<GoogleJsonWebSignature.Payload> VerifyGoogleToken(ExternalLoginRequest request)
+        public async Task<GoogleJsonWebSignature.Payload> VerifyGoogleToken(ExternalLoginRequest request)
         {
             var settings = new GoogleJsonWebSignature.ValidationSettings()
             {
@@ -71,6 +71,6 @@ namespace WebAtb.Servise
 
             var payload = await GoogleJsonWebSignature.ValidateAsync(request.Token, settings);
             return payload;
-        }*/
+        }
     }
 }
